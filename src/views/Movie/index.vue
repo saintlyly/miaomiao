@@ -1,10 +1,10 @@
 <template>
 <div id="main">
-    <Header title="喵喵电影"/>
+    <Headbar title="喵喵电影"/>
         <div id="content">
                 <div class="movie_menu">
                     <router-link to="/movie/city" tag="div" class="city_name">
-                        <span>大连</span><i class="iconfont icon-lower-triangle"></i>
+                        <span>{{$store.state.city.nm}}</span><i class="iconfont icon-lower-triangle"></i>
                     </router-link>
                     <div class="hot_swtich">
                         <router-link to="/movie/nowplaying" tag="div" class="hot_item">正在热映</router-link>
@@ -20,15 +20,48 @@
        
         </div>
     <TabBar/>
+   
  </div>
+ 
 </template>
 <script>
-import Header from '@/components/Header'
+import Headbar from '@/components/Headbar'
 import TabBar from '@/components/TabBar'
+import {messageBox} from '@/components/JS'
+
 export default {
     name:'movie',
     components:{
-        Header,TabBar
+        Headbar,
+        TabBar
+    },
+    mounted(){
+    setTimeout(()=>{
+        this.axios.get('/api/getLocation').then((res)=>{
+            var msg=res.data.msg
+
+            var nm=res.data.data.nm
+            var id=res.data.data.id
+            // console.log(this.$store.state.city.id,id)
+            if(this.$store.state.city.id==id){return}
+            if(msg==='ok'){
+                messageBox({
+                    title:'定位123',
+                    content:nm,
+                    cancel:'取消',
+                    ok:'切换定位',
+                    handleOk(){
+                        window.localStorage.setItem('nowNm',nm)
+                        window.localStorage.setItem('nowId',id)
+                        window.location.reload()
+                    }
+                })
+
+            }
+        })
+
+    },2000)
+
     }
 }
 </script>

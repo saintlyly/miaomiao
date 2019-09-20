@@ -1,6 +1,6 @@
 <template>
    <div>
-       <Header title="喵喵影院"/>
+       <Headbar title="喵喵影院"/>
        <div id="content">
 			<div class="cinema_menu">
 				<div class="city_switch">
@@ -19,13 +19,13 @@
    </div>
 </template>
 <script>
-import Header from '@/components/Header'
+import Headbar from '@/components/Headbar'
 import TabBar from '@/components/TabBar'
 import CiList from '@/components/CiList'
 export default {
     name:'cinema',
     components:{
-        Header,TabBar,CiList
+        Headbar,TabBar,CiList
     }
 }
 </script>
